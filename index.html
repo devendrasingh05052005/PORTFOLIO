@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Science Portfolio</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/TextPlugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #6a1b9a;
+            --secondary-color: #9c27b0;
+            --accent-color: #e040fb;
+        }
+
+        @font-face {
+            font-family: 'Poppins';
+            src: url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        }
+
+        html,
+        body {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+            font-family: 'Poppins', 'Arial', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(-45deg,
+                    #ee7752,
+                    #e73c7e,
+                    #23a6d5,
+                    #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+        }
+
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .nav-glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .project-card {
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card img {
+            transition: transform 0.6s ease;
+        }
+
+        .project-card:hover img {
+            transform: scale(1.08);
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+
+        .project-card:hover::before {
+            opacity: 1;
+        }
+
+        .project-card h3, .project-card p, .project-card h2 {
+            position: relative;
+            z-index: 2;
+        }
+
+        .skill-bubble {
+            display: inline-block;
+            margin: 5px;
+            padding: 8px 15px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .skill-bubble:hover {
+            transform: scale(1.15) rotate(3deg);
+            background-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .download-btn {
+            background-color: #e040fb;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download-btn:hover {
+            transform: scale(1.05);
+            background-color: #ff4081;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .download-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+
+        .download-btn:hover::after {
+            animation: ripple 1s ease-out;
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(20, 20);
+                opacity: 0;
+            }
+        }
+
+        .mobile-menu-btn {
+            display: none;
+        }
+
+        .profile-photo {
+            position: relative;
+        }
+
+        .profile-photo::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            right: -15px;
+            bottom: -15px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.5);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+            }
+            
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 15px rgba(255, 255, 255, 0);
+            }
+            
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+            }
+        }
+
+        .typing-text::after {
+            content: '|';
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+            from, to { opacity: 1 }
+            50% { opacity: 0 }
+        }
+
+        .section-heading {
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-heading::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: -10px;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,1), rgba(255,255,255,0));
+            transform: translateX(-50%);
+        }
+
+        .social-icon {
+            transition: all 0.3s ease;
+            padding: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 0 5px;
+        }
+
+        .social-icon:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .desktop-menu {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .mobile-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                height: 100vh;
+                background: rgba(0, 0, 0, 0.95);
+                backdrop-filter: blur(10px);
+                padding: 80px 20px;
+                transition: all 0.5s ease;
+                z-index: 100;
+            }
+            
+            .mobile-menu.active {
+                right: 0;
+            }
+            
+            .mobile-menu a {
+                display: block;
+                padding: 15px;
+                margin: 10px 0;
+                text-align: center;
+                font-size: 18px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            .close-menu {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Particles Background -->
+    <div id="particles-js"></div>
+
+    <div class="content">
+        <!-- Navigation -->
+        <nav class="fixed top-0 left-0 w-full nav-glass z-50 shadow-lg">
+            <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+                <div class="text-2xl font-bold">Data Science Student</div>
+                <div class="desktop-menu flex space-x-6">
+                    <a href="#home" class="hover:text-pink-300 transition">Home</a>
+                    <a href="#about" class="hover:text-pink-300 transition">About Me</a>
+                    <a href="#projects" class="hover:text-pink-300 transition">Projects</a>
+                    <a href="#achievements" class="hover:text-pink-300 transition">Achievements</a>
+                    <a href="#education" class="hover:text-pink-300 transition">Education</a>
+                    <a href="#certifications" class="hover:text-pink-300 transition">Certifications</a>
+                    <a href="#contact" class="hover:text-pink-300 transition">Contact</a>
+                </div>
+                <div class="mobile-menu-btn cursor-pointer">
+                    <i class="fas fa-bars text-2xl"></i>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu">
+            <span class="close-menu cursor-pointer"><i class="fas fa-times"></i></span>
+            <a href="#home" class="hover:text-pink-300 transition">Home</a>
+            <a href="#about" class="hover:text-pink-300 transition">About Me</a>
+            <a href="#projects" class="hover:text-pink-300 transition">Projects</a>
+            <a href="#achievements" class="hover:text-pink-300 transition">Achievements</a>
+            <a href="#education" class="hover:text-pink-300 transition">Education</a>
+            <a href="#certifications" class="hover:text-pink-300 transition">Certifications</a>
+            <a href="#contact" class="hover:text-pink-300 transition">Contact</a>
+        </div>
+
+        <!-- Home Section -->
+        <section id="home" class="min-h-screen flex items-center justify-center pt-16 relative">
+            <div class="text-center z-10">
+                <div class="profile-photo">
+                    <img src="/PortFolio/my_photo.jpeg" alt=""
+                        class="mx-auto rounded-full w-64 h-64 object-cover mb-6 border-4 border-white shadow-2xl">
+                </div>
+                <h1 class="text-5xl md:text-6xl font-bold mb-4 typing-animation">Devendra Singh</h1>
+                <p class="text-2xl text-pink-200 typing-text">AI&ML Engineer with Full Stack Development Extertise</p>
+
+                <div class="mt-4 flex justify-center space-x-4">
+                    <a href="https://www.linkedin.com/in/devendra-singh-957aa6274/" class="hover:text-pink-300"><i
+                            class="fab fa-linkedin"></i> LinkedIn</a>
+                    <a href="https://github.com/devendrasingh05052005" class="hover:text-pink-300"><i class="fab fa-github"></i>
+                        GitHub</a>
+                    <a href="https://mail.google.com/mail/u/0/?hl=en#inbox" class="hover:text-pink-300"><i
+                            class="fas fa-envelope"></i> Email</a>
+                </div>
+
+                <!-- Resume Download Button -->
+                <a href="/PortFolio/Resume.png" download class="inline-block mt-8 download-btn">
+                    <i class="fas fa-download mr-2"></i>Download Resume
+                </a>
+            </div>
+        </section>
+
+
+        
+
+        <!-- About Me Section -->
+        <section id="about" class="container mx-auto px-4 py-16">
+            <h2 class="text-4xl font-bold text-center mb-10 section-heading">About Me</h2>
+            <div class="max-w-3xl mx-auto glass-card p-8 rounded-xl">
+                <p class="text-lg text-center">
+                    I am a Data Science student with a strong focus on Machine Learning, Deep Learning, and Natural Language
+                    Processing (NLP). I have hands-on experience in training ML models, working with frameworks like
+                    TensorFlow and PyTorch. My expertise includes Generative AI, Large Language Models (LLMs), and building
+                    scalable AI solutions to solve real-world problems. I am passionate about leveraging data to create
+                    impactful, intelligent systems.
+                </p>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="container mx-auto px-4 py-16">
+            <h2 class="text-4xl font-bold text-center mb-10 section-heading">Technical Skills</h2>
+            <div class="flex flex-wrap justify-center skills-container">
+                <span class="skill-bubble">Python</span>
+                <span class="skill-bubble">Machine Learning</span>
+                <span class="skill-bubble">Deep Learning</span>
+                <span class="skill-bubble">NLP</span>
+                <span class="skill-bubble">LLMs</span>
+                <span class="skill-bubble">GenAI</span>
+                <span class="skill-bubble">Power BI</span>
+                <span class="skill-bubble">C++</span>
+                <span class="skill-bubble">Django</span>
+                <span class="skill-bubble">Flask</span>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="container mx-auto px-4 py-16">
+            <h2 class="text-4xl font-bold text-center mb-10 section-heading">Featured Projects</h2>
+            <h3 class="text-3xl font-bold text-center mb-10 section-heading">Generative AI Projects</h3>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <a href="https://github.com/devendrasingh05052005/SISTec_Chatbot"
+                    class="mt-4 inline-block text-white hover:text-pink-300">
+                    <div class="project-card glass-card p-6 rounded-xl h-full">
+                        <h3 class="text-2xl font-semibold mb-4">SISTec AI Chatbot</h3>
+                        <div class="overflow-hidden rounded-lg mb-4">
+                            <img src="/PortFolio/chatbot.jpeg" alt="" class="w-full h-48 object-cover">
+                        </div>
+                        <p class="text-pink-200 mb-4">An intelligent chatbot built for SISTec that answers student queries.</p>
+                        <h2 class="flex items-center justify-center mt-2"> View Project <i class="fas fa-arrow-right ml-2"></i></h2>
+                    </div>
+                </a>
+                <a href=""
+                    class="mt-4 inline-block text-white hover:text-pink-300">
+                    <div class="project-card glass-card p-6 rounded-xl h-full">
+                        <h3 class="text-2xl font-semibold mb-4">YT Video Assistant</h3>
+                        <div class="overflow-hidden rounded-lg mb-4">
+                            <img src="/PortFolio/youtube_chatbot.png" alt="" class="w-full h-48 object-cover">
+                        </div>
+                        <p class="text-pink-200 mb-4">AI assistant that analyzes YouTube videos and answers related questions.</p>
+                        <h2 class="flex items-center justify-center mt-2"> View Project <i class="fas fa-arrow-right ml-2"></i></h2>
+                    </div>
+                </a>
+            </div>
+            
+            <h3 class="text-3xl font-bold text-center my-10 section-heading">Machine Learning Projects</h3>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <a href="https://github.com/devendrasingh05052005/Costumer_Churn_Prediction"
+                    class="mt-4 inline-block text-white hover:text-pink-300">
+                    <div class="project-card glass-card p-6 rounded-xl h-full">
+                        <h3 class="text-2xl font-semibold mb-4">Customer Churn Prediction</h3>
+                        <div class="overflow-hidden rounded-lg mb-4">
+                            <img src="/PortFolio/churn prediction.jpeg" alt="" class="w-full h-48 object-cover">
+                        </div>
+                        <p class="text-pink-200 mb-4">Model that predicts customer churn based on behavior patterns.</p>
+                        <h2 class="flex items-center justify-center mt-2"> View Project <i class="fas fa-arrow-right ml-2"></i></h2>
+                    </div>
+                </a>
+                
+                <a href="https://github.com/devendrasingh05052005/Persnoal_Movie_Recommendation_System"
+                    class="mt-4 inline-block text-white hover:text-pink-300">
+                    <div class="project-card glass-card p-6 rounded-xl h-full">
+                        <h3 class="text-2xl font-semibold mb-4">Movie Recommendation System</h3>
+                        <div class="overflow-hidden rounded-lg mb-4">
+                            <img src="/PortFolio/movie.jpg" alt="" class="w-full h-48 object-cover">
+                        </div>
+                        <p class="text-pink-200 mb-4">Personalized movie recommendations based on user preferences.</p>
+                        <h2 class="flex items-center justify-center mt-2">View Project <i class="fas fa-arrow-right ml-2"></i></h2>
+                    </div>
+                </a>
+
+                <a href="https://github.com/devendrasingh05052005/Laptop_Price_Prediction_System"
+                    class="mt-4 inline-block text-white hover:text-pink-300">
+                    <div class="project-card glass-card p-6 rounded-xl h-full">
+                        <h3 class="text-2xl font-semibold mb-4">Laptop Price Predictor</h3>
+                        <div class="overflow-hidden rounded-lg mb-4">
+                            <img src="/PortFolio/laptop-price-prediction-system-1-320.webp" alt="" class="w-full h-48 object-cover">
+                        </div>
+                        <p class="text-pink-200 mb-4">ML model that predicts laptop prices based on specifications.</p>
+                        <h2 class="flex items-center justify-center mt-2">View Project <i class="fas fa-arrow-right ml-2"></i></h2>
+                    </div>
+                </a>
+
+                <a href="https://github.com/devendrasingh05052005/Spam_SMS_Detection"
+                    class="mt-4 inline-block text-white hover:text-pink-300">
+                    <div class="project-card glass-card p-6 rounded-xl h-full">
+                        <h3 class="text-2xl font-semibold mb-4">SMS Spam Detection System</h3>
+                        <div class="overflow-hidden rounded-lg mb-4">
+                            <img src="/PortFolio/sms.jpg" alt="" class="w-full h-48 object-cover">
+                        </div>
+                        <p class="text-pink-200 mb-4">NLP-based system that identifies spam messages.</p>
+                        <h2 class="flex items-center justify-center mt-2"> View Project <i class="fas fa-arrow-right ml-2"></i></h2>
+                    </div>
+                </a>
+
+                <a href="https://github.com/devendrasingh05052005/Laptop_Price_Prediction_System"
+                    class="mt-4 inline-block text-white hover:text-pink-300">
+                    <div class="project-card glass-card p-6 rounded-xl h-full">
+                        <h3 class="text-2xl font-semibold mb-4">Next Word Predictor</h3>
+                        <div class="overflow-hidden rounded-lg mb-4">
+                            <img src="/PortFolio/word.jpg" alt="" class="w-full h-48 object-cover">
+                        </div>
+                        <p class="text-pink-200 mb-4">Language model that predicts the next word in a sentence.</p>
+                        <h2 class="flex items-center justify-center mt-2">View Project <i class="fas fa-arrow-right ml-2"></i></h2>
+                    </div>
+                </a>
+
+                <a href="https://github.com/devendrasingh05052005/Laptop_Price_Prediction_System"
+                    class="mt-4 inline-block text-white hover:text-pink-300">
+                    <div class="project-card glass-card p-6 rounded-xl h-full">
+                        <h3 class="text-2xl font-semibold mb-4">Next Word Predictor</h3>
+                        <div class="overflow-hidden rounded-lg mb-4">
+                            <img src="/PortFolio/word.jpg" alt="" class="w-full h-48 object-cover">
+                        </div>
+                        <p class="text-pink-200 mb-4">Enhanced language model with improved accuracy.</p>
+                        <h2 class="flex items-center justify-center mt-2">View Project <i class="fas fa-arrow-right ml-2"></i></h2>
+                    </div>
+                </a>
+            </div>
+
+            <h3 class="text-3xl font-bold text-center my-10 section-heading">Data Analysis Projects</h3>
+            <div class="glass-card p-8 rounded-xl text-center">
+                <p class="text-lg">Coming soon... Working on exciting data analysis projects!</p>
+            </div>
+
+            <h3 class="text-3xl font-bold text-center my-10 section-heading">Front End Projects</h3>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <a href="https://github.com/devendrasingh05052005/Persnoal_Movie_Recommendation_System"
+                    class="mt-4 inline-block text-white hover:text-pink-300">
+                    <div class="project-card glass-card p-6 rounded-xl h-full">
+                        <h3 class="text-2xl font-semibold mb-4">Shopping Website</h3>
+                        <div class="overflow-hidden rounded-lg mb-4">
+                            <img src="/PortFolio/shopping.webp" alt="" class="w-full h-48 object-cover">
+                        </div>
+                        <p class="text-pink-200 mb-4">A responsive e-commerce website with modern UI/UX.</p>
+                        <h2 class="flex items-center justify-center mt-2">View Project <i class="fas fa-arrow-right ml-2"></i></h2>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- Achievements Section -->
+        <section id="achievements" class="container mx-auto px-4 py-16">
+            <h2 class="text-4xl font-bold text-center mb-10 section-heading">Achievements</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="glass-card p-6 rounded-xl text-center achievement-card">
+                    <div class="mb-4 text-center">
+                        <i class="fas fa-trophy text-4xl mb-4 achievement-icon"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-2">Hackathon Winner</h3>
+                    <p>First Place in University Data Science Challenge</p>
+                </div>
+                <div class="glass-card p-6 rounded-xl text-center achievement-card">
+                    <div class="mb-4 text-center">
+                        <i class="fas fa-book-open text-4xl mb-4 achievement-icon"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-2">Research Publication</h3>
+                    <p>Published Paper on Predictive Analytics</p>
+                </div>
+                <div class="glass-card p-6 rounded-xl text-center achievement-card">
+                    <div class="mb-4 text-center">
+                        <i class="fas fa-medal text-4xl mb-4 achievement-icon"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-2">Academic Excellence</h3>
+                    <p>Consistent Top Performer in Data Science Courses</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education Section -->
+        <section id="education" class="container mx-auto px-4 py-16">
+            <a href="https://www.sistec.ac.in/">
+                <h2 class="text-4xl font-bold text-center mb-10 section-heading">Education</h2>
+                <div class="max-w-2xl mx-auto glass-card p-8 rounded-xl education-card">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-graduation-cap text-4xl mb-2"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-4 text-center">Bachelor of Technology in Computer Science</h3>
+                    <p class="text-pink-200 mb-2 text-center">Sagar Institute of Science and Technology, 2023-2027</p>
+                    <p class="text-center">Specialization in Artifical Intelligence and Data Science</p>
+                </div>
+            </a>
+        </section>
+
+        <!-- Certifications Section -->
+        <section id="certifications" class="container mx-auto px-4 py-16">
+            <h2 class="text-4xl font-bold text-center mb-10 section-heading">Professional Certifications</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="project-card glass-card p-6 rounded-xl h-full">
+                    <h3 class="text-2xl font-semibold mb-4 text-center">Python</h3>
+                    <p class="text-pink-200 text-center mb-4">Great Learning Professional Certificate</p>
+                    <div class="overflow-hidden rounded-lg">
+                        <img src="/PortFolio/python.jpeg" alt="" class="w-full h-48 object-cover">
+                    </div>
+                </div>
+                <div class="project-card glass-card p-6 rounded-xl h-full">
+                    <h3 class="text-2xl font-semibold mb-4 text-center">AI For Everyone</h3>
+                    <p class="text-pink-200 text-center mb-4">AI Certification</p>
+                    <div class="overflow-hidden rounded-lg">
+                        <img src="/PortFolio/AI.jpeg" alt="" class="w-full h-48 object-cover">
+                    </div>
+                </div>
+                <div class="project-card glass-card p-6 rounded-xl h-full">
+                    <h3 class="text-2xl font-semibold mb-4 text-center">Git and GitHub</h3>
+                    <p class="text-pink-200 text-center mb-4">MLSA Certificate</p>
+                    <div class="overflow-hidden rounded-lg">
+                        <img src="/PortFolio/Github.jpeg" alt="" class="w-full h-48 object-cover">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="container mx-auto px-4 py-16">
+            <h2 class="text-4xl font-bold text-center mb-10 section-heading">Contact Me</h2>
+            <div class="max-w-md mx-auto glass-card p-8 rounded-xl">
+                <form id="contactForm" class="space-y-4">
+                    <div class="relative">
+                        <input type="text" placeholder="Your Name"
+                            class="w-full p-3 rounded-lg bg-white/20 text-white placeholder-pink-200 border border-transparent focus:border-pink-300 focus:outline-none transition">
+                        <span class="absolute left-0 bottom-0 h-1 bg-gradient-to-r from-transparent via-pink-300 to
